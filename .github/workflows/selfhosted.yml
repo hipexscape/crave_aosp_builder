@@ -40,7 +40,7 @@ on:
       LOCAL_MANIFEST_BRANCH:
         description: "Personal local manifest's branch:"
         required: false
-        default: 'lineage-lancelot'
+        default: 'lineage-14'
       DEVICE_NAME:
         description: "Device's codename:"
         required: true
@@ -65,7 +65,7 @@ on:
       CLEAN_BUILD:
         description: 'Build with a clean workspace?'
         required: true
-        default: 'no'
+        default: 'yes'
         type: choice
         options: 
         - 'yes'
