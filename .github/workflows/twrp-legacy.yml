@@ -71,7 +71,12 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Check Credentials
-      run: bash scripts/env-checker.sh
+      run: |
+        if [[ -z "${{ secrets.CRAVE_TOKEN }}" || -z "${{ secrets.CRAVE_USERNAME }}" ]]; then
+          echo "Crave Credentials Not Configured! Exiting..."
+          exit 1
+        fi
+        bash scripts/env-checker.sh
 
     - name: Display Run Parameters # Credit to azwhikaru for this part
       run: |
@@ -349,7 +354,12 @@ jobs:
         cd $PROJECTFOLDER
 
         if [ "${{ github.event.inputs.CLEAN_BUILD }}" == "yes" ]; then
-           export CLEAN="clean"
+           export CLEAN="--clean"
+        fi
+
+        if [[ -n "${{ secrets.PAID }}" ]]; then
+           echo "Paid Build... Tokens will be consumed."
+           export PAID="--platform aosp-silver"
         fi
 
         echo "Build is queued! Please wait for your build to start."
@@ -357,7 +367,7 @@ jobs:
         echo "Running build's log will show up here!"
 
 
-        crave ${{ secrets.CRAVE_FLAGS }} run --no-patch --${CLEAN} "rm -rf .repo/local_manifests/ ${{ github.event.inputs.REMOVALS }} && \
+        crave ${{ secrets.CRAVE_FLAGS }} run --no-patch ${PAID} ${CLEAN} -- "rm -rf .repo/local_manifests/ ${{ github.event.inputs.REMOVALS }} && \
         # Clone local_manifests repository
         $BUILD_DIFFERENT_ROM ; \
         $LOCAL_MANIFEST && \
