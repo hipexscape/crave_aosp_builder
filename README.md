@@ -14,8 +14,31 @@ Please avoid importing, or "kanging" this repository as it is frequently updated
 
 This ensured you can easily update to the latest changes and also boosts my fork stats 😉
 
+>[!WARNING]
+> I have received reports that people are getting their Actions access restricted upon using this, especially new accounts.
+> When they tried contacting github support, they got a "In particular, any repositories that use GitHub Actions solely to interact with 3rd party websites, to engage in incentivized activities, or for general computing purposes may fall afoul of the GitHub Additional Product Terms". More explanation follows.
+
+When I take a look at [Additional Product Terms for Actions](https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#actions), I do not see anything directly disbarring this activity. (as of 28th January 2025)
+1. Potential explanation 1:
+    - These users may have been using github runners instead of the selfhostable ones
+    - "If using GitHub-hosted runners, any other activity unrelated to the production, testing, deployment, or publication of the software project associated with the repository where GitHub Actions are used."
+2. Potential explanation 2:
+     - "Any activity that places a burden on our servers, where that burden is disproportionate to the benefits provided to users (for example, don't use Actions as a content delivery network or as part of a serverless application, but a low benefit Action could be ok if it’s also low burden)"
+    - This just connects to a 3rd party service to offload heavy computational tasks out there.
+    - The intention of this repo is to decrease this burden from github servers, to disincentivise people from trying to abuse CI services like this to build android or other high storage/computationally heavy projects.
+    - We have explicit consent(even encouragement) from the Crave.io team to set this up w.r.t. using their services to make usage easier.
+
+**Neither of these are the same thing as what is mentioned in the response.** 
+
+If you are a github employee and do not like what we're doing, please open an issue and I will disable this repo with a notice asap. If you would like to discuss a better option, again, just please open an issue. 
+
+>[!WARNING]
+> You have been warned about using this repo, especially non-selfhosted workflows. While I cannot find anything that we're violating among the given terms, policies, etc, I am not a lawyer.
+
+>[!WARNING]
+> Feb 2025 Update: I've disabled non selfhosted runners on this repo after yet another user brought this to my attention. Use self-hosted workflow to avoid github actions bans against your account.
 ## Wiki
-While using this repo, please take a look at [the wiki](https://opendroid.pugzarecute.com/wiki) as well!
+While using this repo, please take a look at [the wiki](https://fosson.top/crave/) as well!
 
 ## Prerequisites 
 foss.crave.io account
@@ -158,7 +181,7 @@ Q1. What is this Crave.io? How do I get an account?
 
 A. Crave.io is a build accelerator capable of cutting down build time by quite a bit. They are providing free build servers, however: self signup is disabled. 
 
-Please fill out the [form](https://forms.gle/Jhvy9osvdmcS9B7fA) if you're looking for an account. for more info, check the [wiki](https://opendroid.pugzarecute.com/wiki/Crave_Devspace#getting-a-fosscraveiohttpsfosscraveio-account)
+Please fill out the [form](https://forms.gle/Jhvy9osvdmcS9B7fA) if you're looking for an account. for more info, check the [wiki](https://fosson.top/crave/getting-started/introduction#getting-an-account)
 
 
 ### Chat Help
@@ -182,7 +205,7 @@ To use your crave wallet with one of these projects, just set a secret called "P
 
 To know more about wallets, read this: 
 
-https://opendroid.pugzarecute.com/wiki/Crave_Devspace#paid-queue
+https://fosson.top/crave/getting-started/more-info.html#paid-queue
 
 https://foss.crave.io/docs/wallets/
 
@@ -192,7 +215,10 @@ Q4. How do I sign my builds?
 
 A. Build signing can be done using Backblaze B2 Buckets to hold the private keys. 
 
-Follow [this](https://opendroid.pugzarecute.com/wiki/Crave_Signing) guide to generate, encrypt and upload your keys to Backblaze.
+> [!WARNING]
+> This method is deprecated for now with no better alternative other than using crave push. If you figure something out and want to contribute, please contact me or make a PR.
+
+Follow [this](https://fosson.top/crave/getting-started/build-signing.html#signing-builds-on-crave) guide to generate, encrypt and upload your keys to Backblaze.
 
 Create a actions secret called CUSTOM_YAML with the correct credentials as your environment variables. If this secret is set, the workflow will use this for crave.yaml, instead of the templates found in config/crave folder of this repository. 
 
@@ -210,7 +236,7 @@ Replace "LOS 21" with your base project's name. Remember to use the correct name
 
 Also remember to replace the placeholder credentials with actual values.
 
-It is also recommended to set ignoreClientHostname to preserve workflow persistence. Read more about it [here](https://opendroid.pugzarecute.com/wiki/Crave_Devspace#workspace-persistence).
+It is also recommended to set ignoreClientHostname to preserve workflow persistence. Read more about it [here](https://fosson.top/crave/getting-started/more-info.html#workspace-persistence).
 
 Steps:
 - Go to (repo) Settings -> Security -> Secrets and Variables -> Actions

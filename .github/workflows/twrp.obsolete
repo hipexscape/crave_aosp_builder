@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-name: TWRP Builder(Legacy)
+name: TWRP Builder
 on:
   workflow_dispatch:
     # Various inputs to simplify usage of workflow.
@@ -227,6 +227,13 @@ jobs:
 
         echo "DCDEVSPACE status: ${DCDEVSPACE}"
         if [[ "${DCDEVSPACE}" != "1" ]]; then
+
+          curl -s https://raw.githubusercontent.com/accupara/crave/master/get_crave.sh | bash -s -- 
+
+          mkdir -p ${HOME}/bin/
+          mv ${PWD}/crave ${HOME}/bin/ 
+          sudo ln -sf /home/${USER}/bin/crave /usr/bin/crave; sudo chmod +x /usr/bin/crave 
+
           echo "Symlinking devspace folder"
           mkdir -p devspace
           sudo mkdir -p /crave-devspaces
@@ -320,7 +327,7 @@ jobs:
           cp crave.conf $PROJECTFOLDER
         fi
         if [[ -z "${{ secrets.CUSTOM_YAML }}" ]]; then
-          cp configs/crave/crave.yaml.twrp.legacy $PROJECTFOLDER/.repo/manifests/crave.yaml
+          cp configs/crave/crave.yaml.twrp $PROJECTFOLDER/.repo/manifests/crave.yaml
           echo "No Custom Configuration Found, Using Template!"
         else
           touch $PROJECTFOLDER/.repo/manifests/crave.yaml || true
@@ -466,4 +473,3 @@ jobs:
         crave pull out/error.log
         echo "Displaying out/error.log"
         cat out/error.log
-        #if [[ -z "${{ secrets.CUSTOM_YAML }}" ]]; then
